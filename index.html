@@ -19,7 +19,6 @@
             background: rgba(0, 0, 0, 0.85); backdrop-filter: blur(8px); z-index: 10; box-shadow: 0 0 15px rgba(0, 255, 0, 0.4);
         }
 
-        /* İSA KORKMAZ Brand Hover */
         .brand {
             font-size:1.5rem; font-weight:bold; color:#fff; 
             text-shadow:0 0 10px #0f0; cursor:pointer; transition: .3s;
@@ -47,7 +46,6 @@
             border-bottom: 3px solid rgba(0, 255, 0, 0.3);
         }
 
-        /* Arkaplan temaları */
         #education { background: linear-gradient(rgba(0, 0, 20, 0.9), rgba(0, 0, 60, 0.95)); border-top: 3px solid #00ffff; color: #00ffff; }
         #about     { background: linear-gradient(rgba(0, 20, 0, 0.9), rgba(0, 60, 0, 0.95)); border-top: 3px solid #0f0; color: #0f0; }
         #contact   { background: linear-gradient(rgba(20, 0, 0, 0.9), rgba(60, 0, 0, 0.95)); border-top: 3px solid #ff0000; color: #ffcccc; min-height: 60vh; }
@@ -67,7 +65,6 @@
             font-size: 1.6rem; color: #0f0; margin-bottom: 40px;
         }
 
-        /* Skills */
         .skill-tag {
             display: inline-block; border: 2px solid #0f0; padding: 10px 25px; margin-right: 15px; margin-bottom: 15px; 
             color: #0f0; font-weight: 700; background: rgba(0, 255, 0, 0.1); transition: .3s;
@@ -76,7 +73,6 @@
             background: #0f0; color: #000; transform: scale(1.1); box-shadow: 0 0 25px #0f0;
         }
 
-        /* Sosyal ikonlar */
         .social-icons {
             opacity: 0; 
             transition: opacity 1s ease-in;
@@ -97,7 +93,6 @@
         font-size: 0.9em;
         }
 
-        /* Animasyon */
         @keyframes hard-glitch {
             0%{transform:skew(0);}20%{transform:skew(10deg)}40%{transform:translate(-5px,3px) skew(-15deg);}60%{transform:translate(8px,-4px) skew(15deg);}80%{transform:skew(-5deg);}100%{transform:none;}
         }
@@ -169,7 +164,6 @@
 
 
 <script>
-    /* MATRIX */
     const canvas = document.getElementById("matrixCanvas");
     const ctx = canvas.getContext("2d");
     const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()".split("");
@@ -205,7 +199,6 @@
     }
     setInterval(drawMatrix, 50);
 
-    /* SCRAMBLE */
     const sections = document.querySelectorAll(".section");
 
     function scrambleText(el, text) {
@@ -269,3 +262,4 @@
 
 </body>
 </html>
+
