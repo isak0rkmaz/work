@@ -3,270 +3,589 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>İsa Korkmaz</title>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-
+    <title>İsa Korkmaz | Frontend Developer & Yazılım Meraklısı</title>
+    <meta name="description" content="İsa Korkmaz'ın frontend geliştirme projeleri ve yazılım yetenekleri. HTML, CSS, JavaScript ve daha fazlası.">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
     <style>
+        /* --- CSS AYARLARI --- */
+        :root {
+            --bg-color: #050510;
+            --card-bg: #12121f;
+            --primary: #a855f7;       /* Neon Mor */
+            --secondary: #3b82f6;     /* Neon Mavi */
+            --text-white: #ffffff;
+            --text-gray: #a1a1aa;
+            --border-color: rgba(255, 255, 255, 0.1);
+        }
+
+        * {
+            margin: 0; padding: 0; box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+            scroll-behavior: smooth;
+            line-height: 1.6; /* Okunabilirliği artırdım */
+        }
+
         body {
-            margin: 0; padding: 0; background: #000; font-family: 'Roboto Mono', monospace; overflow-x: hidden; color: #0f0;
+            background-color: var(--bg-color);
+            color: var(--text-white);
+            overflow-x: hidden;
         }
-        #matrixCanvas {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; background: #000;
+
+        /* Arka Plan Deseni */
+        body::before {
+            content: ''; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: radial-gradient(circle at 15% 50%, rgba(168, 85, 247, 0.08), transparent 25%),
+                        radial-gradient(circle at 85% 30%, rgba(59, 130, 246, 0.08), transparent 25%);
+            z-index: -1; pointer-events: none;
         }
+
+        /* --- NAVBAR --- */
         .navbar {
-            position: fixed; top: 0; width: 100%; padding: 15px 5%; display: flex; justify-content: space-between; align-items: center; 
-            background: rgba(0, 0, 0, 0.85); backdrop-filter: blur(8px); z-index: 10; box-shadow: 0 0 15px rgba(0, 255, 0, 0.4);
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 20px 8%; position: fixed; width: 100%; top: 0; z-index: 1000;
+            background: rgba(5, 5, 16, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border-color);
         }
 
-        /* İSA KORKMAZ Brand Hover */
-        .brand {
-            font-size:1.5rem; font-weight:bold; color:#fff; 
-            text-shadow:0 0 10px #0f0; cursor:pointer; transition: .3s;
-        }
-        .brand:hover {
-            color:#0f0; text-shadow:0 0 25px #0f0; transform: scale(1.1);
-        }
+        .logo { font-size: 1.8rem; font-weight: 700; color: #fff; cursor: pointer; text-decoration: none;}
+        .logo span { color: var(--primary); }
 
-        .navbar a {
-            color: #0f0; margin-left: 25px; text-decoration: none; font-weight: 700; letter-spacing: 1px; transition: .3s;
+        .nav-links { list-style: none; display: flex; gap: 30px; }
+        .nav-links a {
+            text-decoration: none; color: var(--text-gray); font-size: 1rem; transition: 0.3s;
+            padding: 5px 0;
         }
-        .navbar a:hover {
-            color: #fff; text-shadow: 0 0 10px #0f0;
-        }
+        .nav-links a:hover, .nav-links a.active { color: var(--primary); }
 
-        .section {
-            padding: 150px 10%; min-height: 80vh; opacity: 0; transform: translateY(40px); transition: 1.2s ease;
+        .hamburger { display: none; font-size: 1.5rem; cursor: pointer; color: white; }
+
+        /* --- GENEL BÖLÜM STİLLERİ --- */
+        section { padding: 120px 8% 40px; min-height: 90vh; display: flex; flex-direction: column; }
+        
+        .section-title {
+            text-align: center; font-size: 2.5rem; margin-bottom: 50px;
         }
-        .section.visible {
+        .section-title span { color: var(--primary); }
+
+        /* Animasyon Sınıfları */
+        .reveal {
+            opacity: 0; transform: translateY(30px); transition: all 1s ease;
+        }
+        .reveal.active {
             opacity: 1; transform: translateY(0);
         }
 
-        #home {
-            min-height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: flex-start; padding-top: 0;
-            border-bottom: 3px solid rgba(0, 255, 0, 0.3);
+        /* --- HERO (ANASAYFA) --- */
+        .hero {
+            flex-direction: row; align-items: center; justify-content: space-between; min-height: 100vh;
+        }
+        .hero-content { max-width: 600px; }
+        .hero-content h1 { font-size: 3.5rem; font-weight: 700; line-height: 1.2; margin-bottom: 20px; }
+        .hero-content h3 { font-size: 1.3rem; font-weight: 500; margin-bottom: 5px;}
+        .gradient-text {
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            -webkit-background-clip: text; color: transparent;
+        }
+        .hero-content p { color: var(--text-gray); margin-bottom: 30px; font-size: 1.1rem; }
+        
+        .btn-box { display: flex; gap: 15px; margin-bottom: 30px; }
+        .btn {
+            padding: 12px 30px; border-radius: 8px; font-weight: 600; text-decoration: none; transition: 0.3s;
+            display: inline-flex; align-items: center; justify-content: center;
+            border: 2px solid; /* İyileştirme */
+        }
+        .btn-primary { 
+            background: var(--primary); color: white; 
+            box-shadow: 0 0 15px rgba(168, 85, 247, 0.4); 
+            border-color: var(--primary); 
+        }
+        .btn-primary:hover { background: #9333ea; transform: translateY(-3px); box-shadow: 0 5px 20px rgba(168, 85, 247, 0.6); }
+
+        .btn-secondary { border-color: var(--border-color); color: white; background: transparent; }
+        .btn-secondary:hover { border-color: var(--primary); background: rgba(168, 85, 247, 0.1); transform: translateY(-3px); }
+
+        /* Sosyal İkonlar Alanı */
+        .social-hero { display: flex; gap: 25px; align-items: center; }
+        .social-hero a {
+            font-size: 1.8rem; color: var(--text-gray); transition: 0.3s;
+        }
+        .social-hero a:hover { color: var(--primary); transform: translateY(-3px) scale(1.1); }
+
+        /* Hero Image */
+        .hero-image-container {
+            width: 350px; 
+            height: 350px; 
+            border-radius: 50%; 
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 5px solid var(--primary); 
+            box-shadow: 0 0 30px rgba(168, 85, 247, 0.5); 
+        }
+        .hero-image-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover; 
+            display: block;
         }
 
-        /* Arkaplan temaları */
-        #education { background: linear-gradient(rgba(0, 0, 20, 0.9), rgba(0, 0, 60, 0.95)); border-top: 3px solid #00ffff; color: #00ffff; }
-        #about     { background: linear-gradient(rgba(0, 20, 0, 0.9), rgba(0, 60, 0, 0.95)); border-top: 3px solid #0f0; color: #0f0; }
-        #contact   { background: linear-gradient(rgba(20, 0, 0, 0.9), rgba(60, 0, 0, 0.95)); border-top: 3px solid #ff0000; color: #ffcccc; min-height: 60vh; }
+        /* --- HAKKIMDA --- */
+        .about-container {
+            display: grid; grid-template-columns: 1fr 1.5fr; gap: 40px; align-items: center;
+        }
+        .about-img {
+            width: 100%; height: 350px; background: #1a1a2e; border-radius: 20px;
+            display: flex; align-items: center; justify-content: center; border: 1px solid var(--border-color);
+        }
+        .about-text h3 { font-size: 1.8rem; margin-bottom: 15px; }
+        .about-text p { color: var(--text-gray); line-height: 1.6; margin-bottom: 25px; }
+        .stats { display: flex; gap: 30px; }
+        .stat-item h4 { font-size: 2rem; color: var(--secondary); margin-bottom: 5px; }
+        .stat-item span { color: var(--text-gray); font-size: 0.9rem; text-transform: uppercase; }
 
-        .section h2 {
-            color: #fff; margin-bottom: 30px; font-size: 2.8rem; padding-left: 20px; border-left: 5px solid; text-shadow: 0 0 15px currentColor;
+        /* --- EĞİTİM (TIMELINE) --- */
+        .timeline {
+            max-width: 800px; margin: auto; position: relative; 
+            border-left: 2px solid var(--border-color); padding-left: 30px;
         }
-
-        #education h2 { border-left-color: #00ffff; }
-        #about h2 { border-left-color: #0f0; }
-        #contact h2 { border-left-color: #ff0000; }
-
-        #home h1 {
-            font-size: 5rem; color: #fff; text-shadow: 0 0 20px #0f0; margin-bottom: 10px;
+        .timeline-item {
+            position: relative; margin-bottom: 40px;
         }
-        #home p {
-            font-size: 1.6rem; color: #0f0; margin-bottom: 40px;
+        .timeline-dot {
+            position: absolute; left: -39px; top: 0; width: 16px; height: 16px;
+            background: var(--primary); border-radius: 50%; box-shadow: 0 0 10px var(--primary);
         }
-
-        /* Skills */
-        .skill-tag {
-            display: inline-block; border: 2px solid #0f0; padding: 10px 25px; margin-right: 15px; margin-bottom: 15px; 
-            color: #0f0; font-weight: 700; background: rgba(0, 255, 0, 0.1); transition: .3s;
+        .timeline-content {
+            background: var(--card-bg); padding: 20px; border-radius: 10px; border: 1px solid var(--border-color);
+            transition: 0.3s;
         }
-        .skill-tag:hover {
-            background: #0f0; color: #000; transform: scale(1.1); box-shadow: 0 0 25px #0f0;
+        .timeline-content:hover { border-color: var(--primary); transform: translateX(5px); }
+        .date { color: var(--secondary); font-size: 0.85rem; margin-bottom: 5px; display: block; font-weight: 600; }
+        
+        /* CS50 Sertifika Link Stili (YENİ EKLENDİ) */
+        .cs50-link {
+            display: inline-flex; align-items: center; gap: 8px;
+            color: var(--secondary); /* Mavi Neon */
+            text-decoration: none; 
+            font-weight: 600; 
+            transition: all 0.3s ease;
+            margin-top: 10px; 
+            font-size: 0.95rem;
         }
-
-        /* Sosyal ikonlar */
-        .social-icons {
-            opacity: 0; 
-            transition: opacity 1s ease-in;
-        }
-        .social-icons a {
-            font-size: 2.5rem; margin-right: 25px; color: currentColor; transition: 0.3s; 
-            text-shadow: 0 0 10px rgba(0, 255, 0, 0.5);
-        }
-        .social-icons a:hover {
-            color: #fff; text-shadow: 0 0 35px currentColor;
-        }
-
-        .footer {
-        background: #111;
-        color: #fff;
-        text-align: center;
-        padding: 20px;
-        font-size: 0.9em;
+        .cs50-link:hover { 
+            color: var(--primary); /* Mor Neon */
+            gap: 12px; 
         }
 
-        /* Animasyon */
-        @keyframes hard-glitch {
-            0%{transform:skew(0);}20%{transform:skew(10deg)}40%{transform:translate(-5px,3px) skew(-15deg);}60%{transform:translate(8px,-4px) skew(15deg);}80%{transform:skew(-5deg);}100%{transform:none;}
+        /* --- PROJELER --- */
+        .project-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px;
         }
-        .glitch-hard { animation: hard-glitch 0.45s steps(2) 1; }
-
-        @keyframes neon-glow {
-            0%, 100% { text-shadow: 0 0 5px #0f0, 0 0 20px #0f0; }
-            50% { text-shadow: 0 0 15px #0f0, 0 0 40px #0f0; }
+        .project-card {
+            background: var(--card-bg); border-radius: 15px; overflow: hidden; border: 1px solid var(--border-color);
+            transition: 0.3s;
+            display: flex; flex-direction: column;
         }
-        .neon { animation: neon-glow 1.5s infinite alternate; }
+        .project-card:hover { transform: translateY(-5px); border-color: var(--primary); box-shadow: 0 10px 20px rgba(0,0,0,0.3); }
+        
+        .project-card .project-image-wrapper { 
+            height: 180px; 
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden; 
+            border-bottom: 1px solid var(--border-color);
+        }
+        .project-card .project-image-wrapper img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover; 
+            display: block;
+            transition: transform 0.5s ease;
+        }
+        .project-card:hover .project-image-wrapper img {
+             transform: scale(1.05);
+        }
 
-        @media(max-width:768px){
-            #home h1{font-size:3rem;} #home p{font-size:1.2rem;} 
-            .section h2{font-size:2rem;} .navbar a{margin-left:10px;font-size:.9rem;} 
-            .skill-tag{padding:5px 15px;font-size:.9rem;}
+
+        .p-info { padding: 20px; display: flex; flex-direction: column; flex-grow: 1; }
+        .tags { margin-bottom: 10px; }
+        .tags span {
+            font-size: 0.75rem; background: rgba(168, 85, 247, 0.15); color: var(--primary);
+            padding: 4px 10px; border-radius: 20px; margin-right: 5px; font-weight: 500;
+        }
+        .p-title { margin: 10px 0; font-size: 1.2rem; }
+        .p-desc { color: var(--text-gray); font-size: 0.9rem; margin-bottom: 15px; flex-grow: 1; }
+        
+        /* Proje Link Butonu */
+        .project-link {
+            display: inline-flex; align-items: center; gap: 8px;
+            color: var(--text-white); text-decoration: none; font-weight: 500; transition: 0.3s;
+            margin-top: 10px;
+        }
+        .project-link:hover { color: var(--primary); gap: 12px; }
+        .project-link i { font-size: 0.8rem; }
+
+
+        /* --- İLETİŞİM --- */
+        .contact-wrapper {
+            display: flex; gap: 50px; flex-wrap: wrap; justify-content: center;
+            max-width: 1000px; margin: auto;
+        }
+        .contact-info { flex: 1; min-width: 300px; }
+        .contact-form { flex: 1; min-width: 300px; }
+
+        .info-box {
+            display: flex; gap: 15px; margin-bottom: 20px; padding: 15px;
+            background: var(--card-bg); border-radius: 10px; border: 1px solid var(--border-color);
+            align-items: center;
+        }
+        .info-box i { color: var(--primary); font-size: 1.5rem; }
+        .contact-link-text {
+            color: var(--text-gray); 
+            text-decoration: none;
+            transition: 0.3s;
+        }
+        .contact-link-text:hover { color: var(--primary); }
+        
+        .contact-form input, .contact-form textarea {
+            width: 100%; background: #1a1a2e; border: 1px solid var(--border-color); color: white;
+            padding: 15px; margin-bottom: 15px; border-radius: 8px; outline: none;
+        }
+        .contact-form input:focus, .contact-form textarea:focus { border-color: var(--primary); }
+
+        /* --- FOOTER --- */
+        footer {
+            text-align: center; padding: 40px; border-top: 1px solid var(--border-color); margin-top: 50px; color: var(--text-gray);
+            font-size: 0.9rem;
+        }
+
+        /* --- RESPONSIVE (MOBİL UYUM) --- */
+        @media (max-width: 900px) {
+            section { padding: 100px 5% 30px; min-height: unset; }
+            .navbar { padding: 15px 5%; }
+            .hamburger { display: block; }
+            .nav-links {
+                position: fixed; top: 60px; right: -100%; width: 75%; height: 100vh;
+                background: #0b0b15; flex-direction: column; justify-content: flex-start; align-items: flex-start;
+                gap: 20px; padding-top: 40px;
+                transition: 0.4s; border-left: 1px solid var(--border-color);
+            }
+            .nav-links li { width: 100%; padding: 0 30px; }
+            .nav-links a { font-size: 1.1rem; display: block; }
+            .nav-links.active { right: 0; }
+            
+            .hero { flex-direction: column-reverse; text-align: center; justify-content: center; }
+            .hero-content h1 { font-size: 2.5rem; }
+            .btn-box, .social-hero { justify-content: center; }
+            
+            .about-container { grid-template-columns: 1fr; }
+            .about-img { display: none; }
+
+            .hero-image-container {
+                width: 250px; 
+                height: 250px;
+                margin: 0 auto 30px; 
+            }
+
+            .contact-wrapper {
+                flex-direction: column; 
+                gap: 20px;
+            }
         }
     </style>
 </head>
 <body>
 
-<canvas id="matrixCanvas"></canvas>
-<audio id="sectionSound" src="https://freesound.org/data/previews/341/341695_3248244-lq.mp3" preload="auto"></audio>
+    <nav class="navbar" role="navigation">
+        <div class="logo">İsa<span>KORKMAZ</span></div>
+        <ul class="nav-links" role="menubar" aria-label="Ana Navigasyon">
+            <li role="none"><a href="#home" class="active" role="menuitem">Anasayfa</a></li> 
+            <li role="none"><a href="#about" role="menuitem">Hakkımda</a></li>
+            <li role="none"><a href="#education" role="menuitem">Eğitim</a></li>
+            <li role="none"><a href="#projects" role="menuitem">Projeler</a></li>
+            <li role="none"><a href="#contact" role="menuitem">İletişim</a></li>
+        </ul>
+        <div class="hamburger" aria-label="Menüyü Aç/Kapat" aria-expanded="false" aria-controls="nav-links-list"><i class="fas fa-bars"></i></div>
+    </nav>
 
-<nav class="navbar">
-    <div class="brand">İSA KORKMAZ</div>
-    <div>
-        <a href="#home">Anasayfa</a>
-        <a href="#education">Eğitim</a>
-        <a href="#about">Hakkımda</a>
-        <a href="#contact">İletişim</a>
-    </div>
-</nav>
+    <main>
+        <section id="home" class="hero" aria-labelledby="hero-heading">
+            <div class="hero-content reveal">
+                <h3>Merhaba, Ben</h3>
+                <h1 id="hero-heading"><span class="gradient-text">İsa Korkmaz</span></h1>
+                <p>
+                    Yazılımda kendimi geliştirmeye ve gelişime açık, dinamik bir yazılım meraklısıyım. 
+                    Öğrendiğim her yeni dilde (Java, Python, C++ vb.) ve teknolojide (HTML, CSS) modern, kullanıcı odaklı ve yüksek performanslı dijital deneyimler tasarlamayı hedefliyorum. 
+                    Kod yazma tutkumu, geleceğin teknolojik altyapısını anlama bilgimle birleştirerek kariyerimi şekillendiriyorum.
+                </p>
+                
+                <div class="btn-box">
+                    <a href="#projects" class="btn btn-primary">Projelerim</a>
+                    <a href="#contact" class="btn btn-secondary">İletişim</a>
+                </div>
 
-<div id="home" class="section visible">
-    <h1>İSA KORKMAZ</h1>
-    <p>Modern teknolojilerle güvenilir, performans odaklı ve sürdürülebilir yazılım çözümleri geliştiriyorum. Çeşitli diller ve teknolojilerle altyapıdan iş mantığına kadar tüm süreçlerde verimli, ölçeklenebilir sistemler tasarlamaya odaklanıyorum.</p>
-    <div>
-        <span class="skill-tag neon">JAVA</span>
-        <span class="skill-tag neon">PYTHON</span>
-        <span class="skill-tag neon">C#</span>
-        <span class="skill-tag neon">C++</span>
-    </div>
-</div>
+                <div class="social-hero">
+                    <a href="https://github.com/isak0rkmaz" target="_blank" title="GitHub Profilim" aria-label="GitHub"><i class="fab fa-github"></i></a>
+                    <a href="https://www.instagram.com/isak0rkmaz?igsh=N3ZkbGo1NXbiNWd2" target="_blank" title="Instagram Profilim" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                </div>
+            </div>
+            
+            <div class="hero-image-container reveal">
+                <img src="file.png" alt="İsa Korkmaz Portre Fotoğrafı">
+            </div>
+        </section>
 
-<div id="education" class="section">
-    <h2 class="scramble-target neon" data-original-text="Eğitim ve Gelişim">Eğitim ve Gelişim</h2>
-    <p class="scramble-target" data-original-text="Anadolu Üniversitesi öğrencisiyim. C, C++, Java ve Python programlama dillerinde bilgi sahibiyim."></p>
-    <p class="scramble-target" data-original-text="Şu anda veri bilimi alanında çalışıyor ve bu alanda kendimi geliştirmeye devam ediyorum."></p>
-</div>
+        <section id="about" aria-labelledby="about-heading">
+            <h2 id="about-heading" class="section-title reveal">Hakkımda <span>Bilgi</span></h2>
+            <div class="about-container reveal">
+                <div class="about-img" aria-hidden="true">
+                    <i class="fas fa-user-astronaut" style="font-size: 6rem; color: rgba(255,255,255,0.2);"></i>
+                </div>
+                <div class="about-text">
+                    <h3>Yazılım ve Teknoloji Tutkunu</h3>
+                <p>
+                Küçük yaşlardan itibaren teknolojiye duyduğum derin bir merakla bu alana yöneldim ve yazılım dünyasında kendimi geliştirmeye adadım. 
+                Şu anda aktif olarak Web Tasarımı üzerine yoğunlaşıyor, öğrendiklerimi pratik projelere dönüştürerek GitHub üzerinde paylaşıyorum. 
+                Her yeni projede kendime meydan okuyarak, kendimi geliştirmeyi planlıyorum.
+                </p>
+                    <div class="stats">
+                        <div class="stat-item">
+                            <h4>5+</h4> <span>Tamamlanan Proje</span>
+                        </div>
+                        <div class="stat-item">
+                            <h4>HTML/CSS</h4> <span>Frontend Odak</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
 
-<div id="about" class="section">
-    <h2 class="scramble-target neon" data-original-text="Hakkımda: Digital Mimar">Hakkımda: Dijital Mimar</h2>
-    <p class="scramble-target" data-original-text="Modern tasarım prensiplerini fonksiyonel yazılımla birleştiren bir geliştiriciyim."></p>
-    <p class="scramble-target" data-original-text="Odak noktam yeni projeler oluşturmak"></p>
-</div>
+        <section id="education" aria-labelledby="education-heading">
+            <h2 id="education-heading" class="section-title reveal">Eğitim <span>Yolculuğu</span></h2>
+            <div class="timeline reveal">
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <span class="date">2018-2022</span>
+                        <h3>Lise Eğitimi</h3>
+                        <p style="color:#aaa; font-size:0.9rem;">Lokman Hekim Mesleki ve Teknik Anadolu Lisesi - Sağlık Hizmetleri</p>
+                    </div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <span class="date">2025 - Devam Ediyor</span>
+                        <h3>Üniversite Eğitimi (Önlisans)</h3>
+                        <p style="color:#aaa; font-size:0.9rem;">
+                            Anadolu Üniversitesi Bilgisayar Programcılığı öğrencisiyim ve Lisans bölümü olan Yönetim Bilişim Sistemleri (YBS) için hazırlıklarımı sürdürüyorum.
+                        </p>
+                    </div>
+                </div>
 
-<div id="contact" class="section">
-    <h2 class="scramble-target neon" data-original-text="İletişim:">İletişim:</h2>
-    <p class="scramble-target" data-original-text="Bana ulaşmak için:"></p>
-    <div class="social-icons scramble-target">
-        <a href="https://github.com/isak0rkmaz"target="_blank"><i class="fab fa-github"></i></a>
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <span class="date">2025</span>
+                        <h3>Harvard Üniversitesi CS50</h3>
+                        <p style="color:#aaa; font-size:0.9rem;"> 
+                            Harvard Üniversitesi CS50x (Introduction to Computer Science) programını tüm problem setlerini ve final projesini başarıyla tamamlayarak bitirdim.
+                        </p>
+                        <a href="https://certificates.cs50.io/52f116b4-f422-46fa-b3a9-01a9e5b51606.pdf?size=letter" target="_blank" class="cs50-link">
+                             Sertifikayı Gör <i class="fas fa-external-link-alt"></i>
+                        </a>
+                    </div>
+                </div>
 
-        <a href="https://www.instagram.com/isakorkmazz1?igsh=N3ZkbGo1NXBiNWd2" target="_blank"><i class="fab fa-instagram"></i></a>
-    </div>
-</div>
-<footer class="footer">
-    <p>&copy; 2025 İsa Korkmaz | Tüm hakları saklıdır.</p>
-  </footer>
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <span class="date">2025</span>
+                        <h3>Yazılım ve Web Tasarımı Gelişimi</h3>
+                        <p style="color:#aaa; font-size:0.9rem;">
+                            Çeşitli online kaynaklardan Web Tasarımı (HTML/CSS/JS) üzerine eğitimler alıyorum. Ayrıca Java, Python, C#, C ve C++ gibi farklı yazılım dillerinde kendimi geliştirmeye odaklanıyorum.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
 
+        <section id="projects" aria-labelledby="projects-heading">
+            <h2 id="projects-heading" class="section-title reveal">Son <span>Projelerim</span></h2>
+            <div class="project-grid reveal">
+                
+                <article class="project-card">
+                    <div class="project-image-wrapper"> 
+                        <img src="Ekran Alıntısı.PNG" alt="Matrix Temalı Kişisel Sayfa önizlemesi">
+                    </div>
+                    <div class="p-info">
+                        <div class="tags"><span>HTML</span><span>CSS</span><span>Portfolio</span></div>
+                        <h3 class="p-title">Kişisel Çalışmalar</h3>
+                        <p class="p-desc">(Matrix Temalı Kişisel Sayfa) GitHub üzerinde barındırılan kişisel çalışmalarım ve demo projelerim.</p>
+                        <a href="https://isak0rkmaz.github.io/work/?utm_source=ig&utm_medium=social&utm_content=link_in_bio&fbclid=..." target="_blank" class="project-link">
+                            Projeyi Gör <i class="fas fa-arrow-right"></i>
+                        </a>
+                    </div>
+                </article>
 
-<script>
-    /* MATRIX */
-    const canvas = document.getElementById("matrixCanvas");
-    const ctx = canvas.getContext("2d");
-    const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()".split("");
-    const charsScramble = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789".split("");
-    const fontSize = 18;
-    let drops = [];
-    const sectionSound = document.getElementById('sectionSound');
+                <article class="project-card">
+                    <div class="project-image-wrapper"> 
+                        <img src="araba.PNG" alt="Oto Galeri Sitesi önizlemesi">
+                    </div>
+                    <div class="p-info">
+                        <div class="tags"><span>Frontend</span><span>Design</span><span>Responsive</span></div>
+                        <h3 class="p-title">Oto Galeri Sitesi (Demo)</h3>
+                        <p class="p-desc">Araç tanıtımı ve galeri gösterimi için tasarlanmış modern, mobil uyumlu web arayüzü.</p>
+                        <a href="https://isak0rkmaz.github.io/OrnekArabaGaleriSitesi/" target="_blank" class="project-link">
+                            Projeyi Gör <i class="fas fa-arrow-right"></i>
+                        </a>
+                    </div>
+                </article>
 
-    function resizeCanvas() {
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
-        drops = Array(Math.floor(canvas.width / fontSize)).fill(1);
-    }
-    resizeCanvas();
-    window.addEventListener("resize", resizeCanvas);
+                <article class="project-card">
+                    <div class="project-image-wrapper"> 
+                        <img src="Ekran görüntüsü 2025-12-12 143649.png" alt="Yazar Kasa Programı ekran görüntüsü">
+                    </div>
+                    <div class="p-info">
+                        <div class="tags"><span>Python</span><span>Desktop App</span></div>
+                        <h3 class="p-title">Yazar Kasa Programı</h3>
+                        <p class="p-desc">Kafe ve Marketlere hitap eden, stok ve satış takibi yapabilen Yazarkasa Projesi.</p>
+                        <a href="https://github.com/isak0rkmaz/CafeMen-.py" target="_blank" class="project-link">
+                            Projeyi Gör <i class="fas fa-arrow-right"></i>
+                        </a>
+                    </div>
+                </article>
+                
+            </div>
+        </section>
 
-    function drawMatrix() {
-        ctx.fillStyle = "rgba(0,0,0,0.06)";
-        ctx.fillRect(0, 0, canvas.width, canvas.height);
-        ctx.font = fontSize + "px 'Roboto Mono'";
+        <section id="contact" aria-labelledby="contact-heading">
+            <h2 id="contact-heading" class="section-title reveal">İletişime <span>Geç</span></h2>
+            <div class="contact-wrapper reveal">
+                
+                <div class="contact-info">
+                    <div class="info-box">
+                        <i class="fab fa-github"></i>
+                        <div>
+                            <h4>GitHub</h4>
+                            <a href="https://github.com/isak0rkmaz" target="_blank" class="contact-link-text">
+                                isak0rkmaz
+                            </a>
+                        </div>
+                    </div>
 
-        drops.forEach((y, i) => {
-            const text = chars[Math.floor(Math.random() * chars.length)];
-            const x = i * fontSize;
-            const yPos = y * fontSize;
+                    <div class="info-box">
+                        <i class="fab fa-instagram"></i>
+                        <div>
+                            <h4>Instagram</h4>
+                            <a href="https://www.instagram.com/isak0rkmaz?igsh=N3ZkbGo1NXbiNWd2" target="_blank" class="contact-link-text">
+                                isak0rkmaz
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                
+                <form class="contact-form" action="#" method="POST">
+                    <input type="text" placeholder="Adınız" required aria-label="Adınız">
+                    <input type="email" placeholder="Email Adresiniz" required aria-label="Email Adresiniz">
+                    <textarea rows="5" placeholder="Mesajınız..." required aria-label="Mesajınız"></textarea>
+                    <button type="submit" class="btn btn-primary">Gönder</button>
+                </form>
+            </div>
+        </section>
+    </main>
 
-            ctx.fillStyle = yPos < canvas.height / 5 || Math.random() > 0.985 ? "#fff" : "#0f0";
-            ctx.fillText(text, x, yPos);
+    <footer>
+        <p>&copy; 2025 İsa Korkmaz. Tasarım ve Kodlama: İsa Korkmaz. Tüm hakları saklıdır.</p>
+    </footer>
 
-            if (yPos > canvas.height && Math.random() > 0.975) drops[i] = 0;
-            drops[i]++;
-        });
-    }
-    setInterval(drawMatrix, 50);
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            
+            // 1. SCROLL REVEAL ANİMASYONU
+            const reveals = document.querySelectorAll('.reveal');
+            
+            const checkReveal = () => {
+                const windowHeight = window.innerHeight;
+                const elementVisible = 100;
+                
+                requestAnimationFrame(() => {
+                    reveals.forEach((reveal) => {
+                        const elementTop = reveal.getBoundingClientRect().top;
+                        if (elementTop < windowHeight - elementVisible) {
+                            reveal.classList.add('active');
+                        }
+                    });
+                });
+            };
 
-    /* SCRAMBLE */
-    const sections = document.querySelectorAll(".section");
+            window.addEventListener('scroll', checkReveal);
+            window.addEventListener('resize', checkReveal);
+            checkReveal();
 
-    function scrambleText(el, text) {
-        let duration = Math.max(800, text.length * 18);
-        let start = Date.now();
+            // 2. MOBİL MENÜ
+            const hamburger = document.querySelector('.hamburger');
+            const navLinks = document.querySelector('.nav-links');
+            const navItems = document.querySelectorAll('.nav-links li a');
+            const navbar = document.querySelector('.navbar');
 
-        let interval = setInterval(() => {
-            let progress = Math.min(1, (Date.now() - start) / duration);
-            let result = "";
+            const toggleMenu = () => {
+                const isExpanded = navLinks.classList.toggle('active');
+                const icon = hamburger.querySelector('i');
+                
+                hamburger.setAttribute('aria-expanded', isExpanded);
 
-            for (let i = 0; i < text.length; i++) {
-                if (text[i] === " ") result += " ";
-                else if (Math.random() > progress)
-                    result += charsScramble[Math.floor(Math.random() * charsScramble.length)];
-                else result += text[i];
-            }
-
-            el.textContent = result;
-            if (progress === 1) clearInterval(interval);
-        }, 40);
-    }
-
-    function triggerAnimations(section) {
-        sectionSound.currentTime = 0;
-        sectionSound.play().catch(()=>{});
-
-        const targets = section.querySelectorAll(".scramble-target");
-
-        targets.forEach((el, i) => {
-            let original = el.dataset.originalText;
-
-            el.style.opacity = "1";
-
-            if (el.tagName === "H2") {
-                el.classList.add("glitch-hard");
-                setTimeout(()=>el.classList.remove("glitch-hard"), 600);
-                scrambleText(el, original);
-            } else {
-                setTimeout(()=>scrambleText(el, original), i * 150);
-            }
-        });
-
-        const iconDiv = section.querySelector(".social-icons");
-        if (iconDiv) setTimeout(() => iconDiv.style.opacity = 1, 1200);
-    }
-
-    function reveal() {
-        sections.forEach(sec => {
-            if (sec.getBoundingClientRect().top < window.innerHeight - 150) {
-                if (!sec.classList.contains("visible")) {
-                    sec.classList.add("visible");
-                    if (sec.id !== "home") triggerAnimations(sec);
+                if (isExpanded) {
+                    icon.classList.replace('fa-bars', 'fa-times');
+                } else {
+                    icon.classList.replace('fa-times', 'fa-bars');
                 }
-            }
+            };
+
+            hamburger.addEventListener('click', toggleMenu);
+
+            // Menü linkine tıklanınca menüyü kapat
+            navItems.forEach(item => {
+                item.addEventListener('click', () => {
+                    if(navLinks.classList.contains('active')){
+                        toggleMenu(); 
+                    }
+                });
+            });
+
+            // 3. SCROLL SPY (Aktif Link Vurgulama) İYİLEŞTİRMESİ
+            const sections = document.querySelectorAll('section');
+            const navLinkItems = document.querySelectorAll('.nav-links a');
+
+            const activateNavLink = () => {
+                let current = 'home'; 
+                const scrollY = window.scrollY;
+                // Navbar yüksekliğini dinamik al
+                const navbarHeight = navbar.offsetHeight; 
+
+                sections.forEach(section => {
+                    const sectionTop = section.offsetTop - navbarHeight - 1; 
+                    if (scrollY >= sectionTop) {
+                        current = section.getAttribute('id');
+                    }
+                });
+
+                navLinkItems.forEach(a => {
+                    a.classList.remove('active');
+                    if (a.getAttribute('href').includes(current)) {
+                        a.classList.add('active');
+                    }
+                });
+            };
+
+            window.addEventListener('scroll', activateNavLink);
+            activateNavLink();
         });
-    }
-
-    window.addEventListener("scroll", reveal);
-    reveal();
-</script>
-
+    </script>
 </body>
 </html>
-
